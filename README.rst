@@ -6,7 +6,7 @@ REST framework JWT Auth
 Notice
 ------
 
-This project is currently unmaintained. `Check #484 for more details and suggested alternatives`_.
+This project has been updated to support Django 4.2 and newer versions. The original project was unmaintained, but this fork provides compatibility fixes for modern Django versions.
 
 ------------
 
@@ -31,9 +31,9 @@ If you want to know more about JWT, check out the following resources:
 Requirements
 ------------
 
--  Python (2.7, 3.3, 3.4, 3.5, 3.6)
--  Django (1.8, 1.9, 1.10, 1.11)
--  Django REST Framework (3.1, 3.2, 3.3, 3.4, 3.5, 3.6)
+-  Python (3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12)
+-  Django (1.8, 1.9, 1.10, 1.11, 2.0, 2.1, 2.2, 3.0, 3.1, 3.2, 4.0, 4.1, 4.2)
+-  Django REST Framework (3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13, 3.14)
 
 Installation
 ------------
