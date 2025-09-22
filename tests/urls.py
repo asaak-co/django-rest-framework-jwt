@@ -1,4 +1,7 @@
-from django.conf.urls import url
+try:
+    from django.urls import re_path as url
+except ImportError:
+    from django.conf.urls import url
 from django.http import HttpResponse
 from rest_framework import permissions
 from rest_framework.views import APIView

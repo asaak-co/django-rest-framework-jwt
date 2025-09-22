@@ -89,11 +89,15 @@ def jwt_get_username_from_payload_handler(payload):
 
 def jwt_encode_handler(payload):
     key = api_settings.JWT_PRIVATE_KEY or jwt_get_secret_key(payload)
-    return jwt.encode(
+    token = jwt.encode(
         payload,
         key,
         api_settings.JWT_ALGORITHM
-    ).decode('utf-8')
+    )
+    # Handle both string and bytes return types from PyJWT
+    if isinstance(token, bytes):
+        return token.decode('utf-8')
+    return token
 
 
 def jwt_decode_handler(token):
@@ -101,12 +105,18 @@ def jwt_decode_handler(token):
         'verify_exp': api_settings.JWT_VERIFY_EXPIRATION,
     }
     # get user from token, BEFORE verification, to get user secret key
-    unverified_payload = jwt.decode(token, None, False)
+    # First try to decode without verification to get the payload
+    try:
+        unverified_payload = jwt.decode(token, options={"verify_signature": False}, algorithms=[api_settings.JWT_ALGORITHM])
+    except Exception:
+        # If that fails, use the default secret key
+        unverified_payload = jwt.decode(token, key=api_settings.JWT_SECRET_KEY, options={"verify_signature": False}, algorithms=[api_settings.JWT_ALGORITHM])
+    
     secret_key = jwt_get_secret_key(unverified_payload)
     return jwt.decode(
         token,
-        api_settings.JWT_PUBLIC_KEY or secret_key,
-        api_settings.JWT_VERIFY,
+        key=api_settings.JWT_PUBLIC_KEY or secret_key,
+        verify=api_settings.JWT_VERIFY,
         options=options,
         leeway=api_settings.JWT_LEEWAY,
         audience=api_settings.JWT_AUDIENCE,

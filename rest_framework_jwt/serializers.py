@@ -4,7 +4,10 @@ from calendar import timegm
 from datetime import datetime, timedelta
 
 from django.contrib.auth import authenticate, get_user_model
-from django.utils.translation import ugettext as _
+try:
+    from django.utils.translation import gettext as _
+except ImportError:
+    from django.utils.translation import ugettext as _
 from rest_framework import serializers
 from .compat import Serializer
 
